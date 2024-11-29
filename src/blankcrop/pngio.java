@@ -32,4 +32,18 @@ public class pngio {
     try {img.write(path);}
     catch (IOException e) {return;}
   }
+
+  public static BufferedRgbaImage createCroppedImage(BufferedRgbaImage original, int[] coordinates, int[] bitDepths) {
+    int width = coordinates[1] - coordinates[0];
+    int height = coordinates[3] - coordinates[2];
+    var croppedImage = new BufferedRgbaImage(width, height, bitDepths);
+    
+    for (int x = coordinates[0]; x <= coordinates[1]; x++) {
+      for (int y = coordinates[2]; y <= coordinates[3]; y++) {
+        long pixel = original.getPixel(x, y);
+        croppedImage.setPixel(x, y, pixel);    
+      }
+    }
+    return croppedImage;
+  }
 }

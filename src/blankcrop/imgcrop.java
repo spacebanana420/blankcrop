@@ -10,7 +10,7 @@ public class imgcrop {
   public static int[] getCroppedCoordinates(BufferedRgbaImage img) {
     int width = img.getWidth();
     int height = img.getHeight();
-    int[] coordinates = new int[]{0, width, 0, height}; //min x, max x, min y, max y
+    int[] coordinates = new int[]{0, width-1, 0, height-1}; //min x, max x, min y, max y
     
     int currentValue = width;
 
@@ -53,7 +53,7 @@ public class imgcrop {
   }
 
   private static int highestX(BufferedRgbaImage img, int width, int line_y, int currentHighest) {
-    for (int line_x = width; line_x > currentHighest; line_x--) {
+    for (int line_x = width-1; line_x > currentHighest; line_x--) {
       long pixel = img.getPixel(line_x, line_y);
       if (pixel != 0) {return line_x;}
     }
@@ -70,7 +70,7 @@ public class imgcrop {
 
 
   private static int lowestY(BufferedRgbaImage img, int height, int line_x, int currentLowest) {
-    for (int line_y = height; line_y > currentLowest; line_y--) {
+    for (int line_y = height-1; line_y > currentLowest; line_y--) {
       long pixel = img.getPixel(line_x, line_y);
       if (pixel != 0) {return line_y;}
     }

@@ -1,0 +1,41 @@
+package blankcrop.cli;
+
+import java.util.ArrayList;
+import java.io.File;
+
+public class cli {
+
+  public static ArrayList<String> getInputFiles(String[] args) {
+    var files = new ArrayList<String>();
+    for (String a : args)
+    {
+      var f = new File(a);
+      if (!isArgument(a) && f.isFile() && f.canRead() && isPNGFile(a)) {files.add(a);}  
+    }
+    return files;
+  }
+
+  public static boolean askedForHelp(String[] args) {return hasArgument(args, "-h") || hasArgument(args, "--help");}
+
+  private static boolean hasArgument(String[] args, String argument) {return findArgument(args, argument) != -1;}
+  
+  private static int findArgument(String[] args, String argument) {
+    for (int i = 0; i < args.length; i++) {
+      if (args[i].equals(argument)) {return i;}
+    }
+    return -1;
+  }
+
+  private static boolean isArgument(String arg) {return arg != null && arg.length() > 1 && arg.charAt(0) != '-';}
+
+  private static boolean isPNGFile(String path) {
+    if (path == null || path.length() <= 4) {return false;} // the 4 characters stand for ".png"
+    for (int i = 0; i < 4; i++)
+    {
+      char c_png = ".png".charAt(3-i);
+      char c_path = path.charAt(path.length()-1-i);
+      if (c_png != c_path) {return false;}
+    }
+    return true;
+  }
+}

@@ -21,6 +21,7 @@ public class pngio {
       return imageData;
     }
     catch (IOException e) {return null;}
+    catch (IllegalArgumentException e) {return null;}
   }
   
 

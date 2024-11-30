@@ -28,6 +28,8 @@ public class cli {
 
   public static boolean overwriteImage(String[] args) {return hasArgument(args, "-o") || hasArgument(args, "--overwrite");}
 
+  public static boolean walfasMode(String[] args) {return hasArgument(args, "-walfa");}
+
   private static boolean hasArgument(String[] args, String argument) {return findArgument(args, argument) != -1;}
   
   private static int findArgument(String[] args, String argument) {

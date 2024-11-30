@@ -5,7 +5,7 @@ public class help {
     System.out.println
     (
       "==Blankcrop v0.1=="
-      + "+\nUsage: blankcrop [options] [png images...]"
+      + "\nUsage: blankcrop [options] [png images...]"
       + "\n"
       + "\n==Options=="
       + "\n  * -h (--help) - prints this menu"
@@ -13,6 +13,7 @@ public class help {
       + "\n  * -quiet - disables all printing to standard output"
       + "\n  * -verbose - prints more information on the progam's progress"
       + "\n  * -debug - prints debugging information"
+      + "\n  * -walfa - ignore this setting, it suits a specific workflow I need"
     );
   }
   public static void printHelp_small() {

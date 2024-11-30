@@ -17,6 +17,15 @@ public class cli {
 
   public static boolean askedForHelp(String[] args) {return hasArgument(args, "-h") || hasArgument(args, "--help");}
 
+  public static byte getVerbosityLevel(String[] args) {
+    if (hasArgument(args, "-quiet")) {return 0;}
+    else if (hasArgument(args, "-verbose")) {return 2;}
+    else if (hasArgument(args, "-debug")) {return 3;}
+    else return 1;    
+  }
+
+  public static boolean overwriteImage(String[] args) {return hasArgument(args, "-o") || hasArgument(args, "--overwrite");}
+
   private static boolean hasArgument(String[] args, String argument) {return findArgument(args, argument) != -1;}
   
   private static int findArgument(String[] args, String argument) {

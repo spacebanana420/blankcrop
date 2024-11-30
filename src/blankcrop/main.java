@@ -50,7 +50,21 @@ public class main {
     }
     
     var croppedImage = pngio.createCroppedImage(image, coordinates, bitDepths);
-    pngio.writeImage(croppedImage, "Autocropped-"+path); //improve filename generation
+    String newname = (global.OVERWRITE_IMAGE) ? path : removeExtension(path) + "-autocropped.png";
+    pngio.writeImage(croppedImage, newname); //improve filename generation
     stdout.print("Cropped image " + path);
+  }
+
+  static String removeExtension(String path) {
+    String newname = "";
+    boolean copy = false;
+    int nameEnd_i = -1;
+
+    for (int i = path.length(); i >= 0; i++) {
+      if (path.charAt(i) == '.') {nameEnd_i = i; break;}
+    }
+    if (nameEnd_i == -1) {return path;}
+    for (int i = 0; i < nameEnd_i; i++) {newname += path.charAt(i);}
+    return newname;
   }
 }

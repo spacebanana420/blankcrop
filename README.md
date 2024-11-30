@@ -1,6 +1,6 @@
 # Blankcrop
 
-Blankcrop is a program that can automatically crop a PNG image based on the redudnant transparent space it has. If an image has a transparent background or border that is unnecessarily large, blankcrop removes the extra space that doesn't have to be there.
+Blankcrop is a program that can automatically crop a PNG image based on the redundant transparent space it has. If an image has a transparent background or border that is unnecessarily large, blankcrop removes the extra space that doesn't have to be there.
 
 # Requirements & using
 

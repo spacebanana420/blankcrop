@@ -28,19 +28,23 @@ public class main {
     }
     
     int[] bitDepths = image.getBitDepths();
+    int width = image.getWidth();
+    int height = image.getHeight();
     if (bitDepths[3] == 0) {
       stdout.print_verbose("Image " + path + " does not have an alpha channel. SKipping.");
       return;
     }
     
     if (cli.walfasMode(args)) {
-      stdout.print_verbose("Walfa mode is enabled, images are cropped horizontally from the left by 310 pixels");
-      int[] preCrop = new int[]{310, image.getWidth()-1, 0, image.getWidth()-1}; //skip the UI elements on the left for Walfas
+      stdout.print_verbose("Walfa mode is enabled, images are cropped horizontally from the left by 355 pixels");
+      int[] preCrop = new int[]{355, width-1, 0, height-1}; //skip the UI elements on the left for Walfas
       image = pngio.createCroppedImage(image, preCrop, image.getBitDepths());
+      width = image.getWidth();
+      height = image.getHeight();
     }
     
     int[] coordinates = imgcrop.getCroppedCoordinates(image); 
-    if (coordinates[0] == 0 && coordinates[1] == image.getWidth()-1 && coordinates[2] == 0 && coordinates[3] == image.getHeight()-1) {
+    if (coordinates[0] == 0 && coordinates[1] == width-1 && coordinates[2] == 0 && coordinates[3] == height-1) {
       stdout.print_verbose("Image " + path + " does not have redundant transparent pixels. Skipping.");
       return;
     }

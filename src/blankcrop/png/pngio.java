@@ -39,9 +39,9 @@ public class pngio {
     int height = coordinates[3] - coordinates[2];
     var croppedImage = new BufferedRgbaImage(width, height, bitDepths);
     
-    for (int x = coordinates[0]; x <= coordinates[1]; x++) {
-      for (int y = coordinates[2]; y <= coordinates[3]; y++) {
-        long pixel = original.getPixel(x, y);
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {      
+        long pixel = original.getPixel(coordinates[0]+x, coordinates[2]+y);
         croppedImage.setPixel(x, y, pixel);    
       }
     }

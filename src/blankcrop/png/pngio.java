@@ -25,13 +25,13 @@ public class pngio {
   }
   
 
-  public static void writeImage(RgbaImage imageData, String path) {writeImage(imageData, new File(path));}
+  public static boolean writeImage(RgbaImage imageData, String path) {return writeImage(imageData, new File(path));}
 
-  public static void writeImage(RgbaImage imageData, File path) {
+  public static boolean writeImage(RgbaImage imageData, File path) {
     var img = ImageEncoder.toPng(imageData, Ihdr.InterlaceMethod.NONE);
     
-    try {img.write(path);}
-    catch (IOException e) {return;}
+    try {img.write(path); return true;}
+    catch (IOException e) {return false;}
   }
 
   public static BufferedRgbaImage createCroppedImage(BufferedRgbaImage original, int[] coordinates, int[] bitDepths) {

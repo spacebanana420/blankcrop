@@ -51,8 +51,9 @@ public class main {
     
     var croppedImage = pngio.createCroppedImage(image, coordinates, bitDepths);
     String newname = (global.OVERWRITE_IMAGE) ? path : removeExtension(path) + "-autocropped.png";
-    pngio.writeImage(croppedImage, newname); //improve filename generation
-    stdout.print("Cropped image " + path);
+    boolean result = pngio.writeImage(croppedImage, newname); //improve filename generation
+    if (result) {stdout.print("Cropped image " + path);}
+    else {stdout.print("Error: failed to create cropped image at path " + newname);}
   }
 
   static String removeExtension(String path) {

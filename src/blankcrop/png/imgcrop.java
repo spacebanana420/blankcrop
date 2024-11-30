@@ -1,4 +1,4 @@
-package blankcrop;
+package blankcrop.png;
 
 import io.nayuki.png.ImageDecoder;
 import io.nayuki.png.ImageEncoder;

@@ -58,7 +58,6 @@ public class main {
 
   static String removeExtension(String path) {
     String newname = "";
-    boolean copy = false;
     int nameEnd_i = -1;
 
     for (int i = path.length(); i >= 0; i++) {

@@ -5,16 +5,14 @@ import blankcrop.cli.help;
 import java.util.ArrayList;
 
 public class main {
-  public static int main(String[] args) {
-    if (cli.askedForHelp(args)) {help.printHelp(); return 0;}
+  public static void main(String[] args) {
+    if (cli.askedForHelp(args)) {help.printHelp(); System.exit(0);}
 
     var files = cli.getInputFiles(args);
-    if (files.size() == 0) {help.printHelp_small(); return 1;}
+    if (files.size() == 0) {help.printHelp_small(); System.exit(1);}
     global.VERBOSITY_LEVEL = cli.getVerbosityLevel(args);
     global.OVERWRITE_IMAGE = cli.overwriteImage(args);
     for (String file : files) {encodeImage(file);}
-    
-    return 0;
   }
 
   static void encodeImage(String path) {

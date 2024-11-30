@@ -28,8 +28,14 @@ public class main {
       stdout.print_verbose("Image " + path + " does not have redundant transparent pixels. Skipping.");
       return;
     }
+    int[] bitDepths = image.getBitDepths();
+    if (bitDepths[3] == 0) {
+      stdout.print_verbose("Image " + path + " does not have an alpha channel. SKipping.");
+      return;
+    }
   
-    var croppedImage = pngio.createCroppedImage(image, coordinates, image.getBitDepths()); //todo: safecheck bit depths
+    var croppedImage = pngio.createCroppedImage(image, coordinates, bitDepths);
     pngio.writeImage(croppedImage, "Autocropped-"+path); //improve filename generation
+    stdout.print("Cropped image " + path);
   }
 }

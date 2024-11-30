@@ -1,6 +1,7 @@
 package blankcrop;
 
-import blankcrop.cli;
+import blankcrop.cli.cli;
+import blankcrop.cli.help;
 import java.util.ArrayList;
 
 public class main {

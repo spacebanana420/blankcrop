@@ -4,39 +4,39 @@ import java.util.ArrayList;
 
 public class stdout {
   public static void print(String message) {
-    if (global.verbosity_level > 0) {System.out.println(message);}
+    if (global.VERBOSITY_LEVEL > 0) {System.out.println(message);}
   }
 
   public static void print(String title, String[] contents) {
-    if (global.verbosity_level > 0) {printSeq(title, contents);}
+    if (global.VERBOSITY_LEVEL > 0) {printSeq(title, contents);}
   }
 
   public static void print(String title, ArrayList<String> contents) {
-    if (global.verbosity_level > 0) {printSeq(title, contents);}
+    if (global.VERBOSITY_LEVEL > 0) {printSeq(title, contents);}
   }
 
   public static void print_verbose(String message) {
-    if (global.verbosity_level > 1) {System.out.println(message);}
+    if (global.VERBOSITY_LEVEL > 1) {System.out.println(message);}
   }
 
   public static void print_verbose(String title, String[] contents) {
-    if (global.verbosity_level > 1) {printSeq(title, contents);}
+    if (global.VERBOSITY_LEVEL > 1) {printSeq(title, contents);}
   }
 
   public static void print_verbose(String title, ArrayList<String> contents) {
-    if (global.verbosity_level > 1) {printSeq(title, contents);}
+    if (global.VERBOSITY_LEVEL > 1) {printSeq(title, contents);}
   }
   
   public static void print_debug(String message) {
-    if (global.verbosity_level > 2) {System.out.println(message);}
+    if (global.VERBOSITY_LEVEL > 2) {System.out.println(message);}
   }
 
   public static void print_debug(String title, String[] contents) {
-    if (global.verbosity_level > 2) {printSeq(title, contents);}
+    if (global.VERBOSITY_LEVEL > 2) {printSeq(title, contents);}
   }
 
   public static void print_debug(String title, ArrayList<String> contents) {
-    if (global.verbosity_level > 2) {printSeq(title, contents);}
+    if (global.VERBOSITY_LEVEL > 2) {printSeq(title, contents);}
   }
 
   

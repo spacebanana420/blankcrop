@@ -34,8 +34,8 @@ public class main {
     }
     
     if (cli.walfasMode(args)) {
-      stdout.print_verbose("Walfa mode is enabled, images are cropped horizontally from the left by 100 pixels");
-      int[] preCrop = new int[]{100, image.getWidth()-1, 0, image.getWidth()-1}; //skip the UI elements on the left for Walfas
+      stdout.print_verbose("Walfa mode is enabled, images are cropped horizontally from the left by 310 pixels");
+      int[] preCrop = new int[]{310, image.getWidth()-1, 0, image.getWidth()-1}; //skip the UI elements on the left for Walfas
       image = pngio.createCroppedImage(image, preCrop, image.getBitDepths());
     }
     

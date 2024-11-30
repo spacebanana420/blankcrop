@@ -8,10 +8,12 @@ public class main {
   public static void main(String[] args) {
     if (cli.askedForHelp(args)) {help.printHelp(); System.exit(0);}
 
-    var files = cli.getInputFiles(args);
-    if (files.size() == 0) {help.printHelp_small(); System.exit(1);}
+    
     global.VERBOSITY_LEVEL = cli.getVerbosityLevel(args);
     global.OVERWRITE_IMAGE = cli.overwriteImage(args);
+    var files = cli.getInputFiles(args);
+    if (files.size() == 0) {help.printHelp_small(); System.exit(1);}
+    
     for (String file : files) {encodeImage(file);}
   }
 

@@ -3,6 +3,8 @@ package blankcrop.cli;
 import java.util.ArrayList;
 import java.io.File;
 
+import blankcrop.stdout;
+
 public class cli {
 
   public static ArrayList<String> getInputFiles(String[] args) {
@@ -35,7 +37,7 @@ public class cli {
     return -1;
   }
 
-  private static boolean isArgument(String arg) {return arg != null && arg.length() > 1 && arg.charAt(0) != '-';}
+  private static boolean isArgument(String arg) {return arg != null && arg.length() > 1 && arg.charAt(0) == '-';}
 
   private static boolean isPNGFile(String path) {
     if (path == null || path.length() <= 4) {return false;} // the 4 characters stand for ".png"

@@ -9,11 +9,11 @@ Blankcrop is a program that can automatically crop a PNG image based on the redu
 
 ### Download and how to use
 
-Download blankcrop from the releases page and run it with `java -jar blankcrop.jar`. Introduce a path to a PNG image to crop it.
+Download blankcrop from the [releases page](https://github.com/spacebanana420/blankcrop/releases) and run it with `java -jar blankcrop.jar`. Introduce a path to a PNG image to crop it.
 
 # Build from source
 
-You can compile Blankcrop with Yuuka:
+You can compile Blankcrop with [Yuuka](https://github.com/spacebanana420/yuuka):
 
 ```
 yuuka package

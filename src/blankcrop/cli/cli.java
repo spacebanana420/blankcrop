@@ -30,6 +30,21 @@ public class cli {
 
   public static boolean walfasMode(String[] args) {return hasArgument(args, "-walfa");}
 
+  public static String getOutputFile(String[] args) {
+    String file = getArgumentValue(args, "-out");
+    if (file == null) {return null;}
+    File f = new File(file);
+    if (!f.getName().equals(file) && !new File(f.getParent()).isDirectory()) {return null;}
+    return isPNGFile(file) ? file : null;
+  }
+
+  private static String getArgumentValue(String[] args, String argument) {
+    if (args.length < 2) {return null;}
+    int i = findArgument(args, argument);
+    if (i == -1 || i == args.length-1) {return null;}
+    return args[i+1];
+  }
+
   private static boolean hasArgument(String[] args, String argument) {return findArgument(args, argument) != -1;}
   
   private static int findArgument(String[] args, String argument) {

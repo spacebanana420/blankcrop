@@ -15,6 +15,7 @@ public class cli {
       if (!isArgument(a) && f.isFile() && f.canRead() && isPNGFile(a)) {files.add(a);}  
     }
     files.addAll(getDirectories(args));
+    stdout.print_debug("Obtained the following PNG images:", files);
     return files;
   }
 
@@ -45,10 +46,14 @@ public class cli {
     {
       if (args[i].equals("-d") || args[i].equals("--directory"))
       {
-        if (args.length < 2 || i == args.length-1) {continue;}
+        if (args.length < 2 || i == args.length-1) {
+          stdout.print_verbose("Ignoring 1 -d argument: missing directory path");
+          continue;
+        }
         String possible_dir = args[i+1];
         var f = new File(possible_dir);
         if (f.isDirectory() && f.canWrite()) {dirs.add(possible_dir);}
+        else {stdout.print_verbose("Ignoring 1 -d argument: path" + possible_dir  + "is not a valid directory");}
       }
     }
     if (dirs.size() == 0) {return dirs;}

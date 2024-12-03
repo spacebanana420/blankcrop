@@ -14,6 +14,7 @@ public class cli {
       var f = new File(a);
       if (!isArgument(a) && f.isFile() && f.canRead() && isPNGFile(a)) {files.add(a);}  
     }
+    files.addAll(getDirectories(args));
     return files;
   }
 
@@ -36,6 +37,40 @@ public class cli {
     File f = new File(file);
     if (!f.getName().equals(file) && !new File(f.getParent()).isDirectory()) {return null;}
     return isPNGFile(file) ? file : null;
+  }
+
+  private static ArrayList<String> getDirectories(String[] args) {
+    var dirs = new ArrayList<String>();
+    for (int i = 0; i < args.length; i++)
+    {
+      if (args[i].equals("-d") || args[i].equals("--directory"))
+      {
+        if (args.length < 2 || i == args.length-1) {continue;}
+        String possible_dir = args[i+1];
+        var f = new File(possible_dir);
+        if (f.isDirectory() && f.canWrite()) {dirs.add(possible_dir);}
+      }
+    }
+    if (dirs.size() == 0) {return dirs;}
+
+    var images = new ArrayList<String>();
+    for (int i = 0; i < dirs.size(); i++) {
+      images.addAll(getDirImages(dirs.get(i)));
+    }
+    return images;
+  }
+
+  private static ArrayList<String> getDirImages(String dir) {
+    String[] files = new File(dir).list();
+    var images = new ArrayList<String>();
+    if (files == null || files.length == 0) {return images;}
+    
+    for (String file : files) {
+      String full_path = dir+"/"+file;
+      var f = new File(full_path);
+      if (f.isFile() && f.canRead() && isPNGFile(full_path)) {images.add(full_path);}
+    }
+    return images;
   }
 
   private static String getArgumentValue(String[] args, String argument) {

@@ -1,5 +1,5 @@
-import blankcrop.pngio;
-import blankcrop.imgcrop;
+import blankcrop.png.pngio;
+import blankcrop.png.imgcrop;
 
 import io.nayuki.png.image.BufferedRgbaImage;
 

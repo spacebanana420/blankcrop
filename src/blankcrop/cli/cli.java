@@ -31,6 +31,23 @@ public class cli {
   public static boolean overwriteImage(String[] args) {return hasArgument(args, "-o") || hasArgument(args, "--overwrite");}
 
   public static boolean walfasMode(String[] args) {return hasArgument(args, "-walfa");}
+  
+  public static boolean doCrop(String[] args) {return hasArgument(args, "-crop");}
+  public static boolean doPalette(String[] args) {return hasArgument(args, "-palette");}
+  
+  public static String[] getPaletteFiles(String[] args) {
+    String[] palette_files = new String[2];
+    int p_i = 0;
+    for (int i = 0; i < args.length || p_i < 2; i++) {
+      String arg = args[i];
+      if (!arg.contains(".palette")) {continue;}
+      File file = new File(arg);
+      if (!file.isFile() || !file.canRead()) {continue;}
+      palette_files[p_i] = arg;
+      p_i++;
+    }
+    return palette_files;
+  }
 
   public static String getOutputFile(String[] args) {
     String file = getArgumentValue(args, "-out");

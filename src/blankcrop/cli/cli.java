@@ -38,7 +38,7 @@ public class cli {
   public static String[] getPaletteFiles(String[] args) {
     String[] palette_files = new String[2];
     int p_i = 0;
-    for (int i = 0; i < args.length || p_i < 2; i++) {
+    for (int i = 0; i < args.length && p_i < 2; i++) {
       String arg = args[i];
       if (!arg.contains(".palette")) {continue;}
       File file = new File(arg);

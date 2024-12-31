@@ -40,7 +40,7 @@ public class main {
       return;
     }
     if (global.CROP_IMAGE) {image = cropImage(image, path);}
-    if (global.PALETTE_CONVERT) {changePalette(image, args);}
+    if (global.PALETTE_CONVERT) {image = changePalette(image, args);}
     
     String newname = misc.getFilename(args, path);
     boolean result = pngio.writeImage(image, newname);
@@ -71,10 +71,13 @@ public class main {
     return pngio.createCroppedImage(image, coordinates, bitDepths);
   }
   
-  static void changePalette(BufferedRgbaImage image, String[] args) {
+  static BufferedRgbaImage changePalette(BufferedRgbaImage image, String[] args) {
     String[] palette_files = cli.getPaletteFiles(args);
-    if (palette_files[0] == null || palette_files[1] == null) {return;}
-    palette.convertImage(image, palette_files[1], palette_files[2]);
+    if (palette_files[0] == null || palette_files[1] == null) {
+      stdout.print("You must specify 2 .palette files to convert the image's color palette!");
+      return image;
+    }
+    return palette.convertImage(image, palette_files[0], palette_files[1]);
   }
 }
 
@@ -91,7 +94,7 @@ class misc {
     String newname = "";
     int nameEnd_i = -1;
 
-    for (int i = path.length(); i >= 0; i++) {
+    for (int i = path.length()-1; i >= 0; i--) {
       if (path.charAt(i) == '.') {nameEnd_i = i; break;}
     }
     if (nameEnd_i == -1) {return path;}

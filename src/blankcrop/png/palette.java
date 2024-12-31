@@ -1,5 +1,7 @@
 package blankcrop.png;
 
+import blankcrop.stdout;
+
 import io.nayuki.png.ImageDecoder;
 import io.nayuki.png.ImageEncoder;
 import io.nayuki.png.PngImage;
@@ -13,24 +15,35 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class palette {
-  public static void convertImage(BufferedRgbaImage img, String palette1, String palette2) {
+  public static BufferedRgbaImage convertImage(BufferedRgbaImage img, String palette1, String palette2) {
     long[] colors1 = readPalette(palette1);
     long[] colors2 = readPalette(palette2);
-    if (colors1 == null || colors2 == null) {return;}
-    if (colors1.length > colors2.length) {return;}
+    if (colors1 == null || colors2 == null) {return img;}
+    if (colors1.length > colors2.length) {return img;}
+    stdout.print_debug("Palette 1:", colors1);
+    stdout.print_debug("Palette 2:", colors2);
     
     int palette_length = colors1.length;
     int width = img.getWidth();
     int height = img.getHeight();
+    int[] bitDepths = img.getBitDepths();
+    var newimg = new BufferedRgbaImage(width, height, bitDepths);
     
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++)
       {
         long pixel = img.getPixel(x, y);
-        for (int i = 0; i < palette_length; i++) {if (pixel == colors1[i]) {pixel = colors2[i];}}
-        img.setPixel(x, y, pixel);
+        for (int i = 0; i < palette_length; i++) {
+          if (pixel == colors1[i]) {
+            stdout.print_debug("Found pixel match: " + pixel);
+            pixel = colors2[i];
+            newimg.setPixel(x, y, pixel);
+            break;
+          }
+        }
       }
     }
+    return newimg;
   }
   
   static long[] readPalette(String path) {
@@ -40,7 +53,7 @@ public class palette {
     String data = readFile(path);
     if (data == null) {return null;}
     
-    String[] rgb_str = new String[4];
+    String[] rgb_str = new String[]{"", "", "", ""};
     int rgb_i = 0;
     var colors = new ArrayList<RGBA>();
     for (int i = 0; i < data.length(); i++)
@@ -48,7 +61,7 @@ public class palette {
       char c = data.charAt(i);
       if (c == '\n' || rgb_i > 3) {
         colors.add(new RGBA(rgb_str));
-        rgb_str = new String[4];
+        rgb_str = new String[]{"", "", "", ""};
         rgb_i = 0;
       }
       else if (c == ' ') {rgb_i++;}
@@ -57,19 +70,10 @@ public class palette {
     
     long[] palette_colors = new long[colors.size()];
     for (int i = 0; i < palette_colors.length; i++) {
-      byte[] pixel = colors.get(i).getChannels();
-      palette_colors[i] = pixelToLong(pixel);
+      palette_colors[i] = colors.get(i).getLong();
     }
     return palette_colors;
   }
-  
-  static long pixelToLong(byte[] pixel) {
-    long[] unsigned = new long[]{toUnsigned(pixel[0]), toUnsigned(pixel[1]), toUnsigned(pixel[2]), toUnsigned(pixel[3])};
-    long value = (unsigned[0] << 48) + (unsigned[1] << 32) + (unsigned[2] << 16) + unsigned[3];
-    return value;
-  }
-  
-  static long toUnsigned(byte b) {return b & 255;}
   
   static String readFile(String path) {
     try {
@@ -80,12 +84,12 @@ public class palette {
 }
 
 class RGBA {
-  byte red = 0;
-  byte green = 0;
-  byte blue = 0;
-  byte alpha = (byte)255;
+  short red = 0;
+  short green = 0;
+  short blue = 0;
+  short alpha = 255;
   
-  public RGBA(byte[] channels) {
+  public RGBA(short[] channels) {
     if (channels.length >= 4) {
       red = channels[0];
       green = channels[1];
@@ -95,10 +99,13 @@ class RGBA {
   }
   public RGBA(String[] channels) {
     if (channels.length < 4) {return;}
-    byte[] rgba = new byte[4];
+    short[] rgba = new short[4];
     for (int i = 0; i < 4; i++) {
-      try {rgba[i] = Byte.parseByte(channels[i]);}
-      catch (NumberFormatException e) {rgba[i] = 0;} 
+      try {rgba[i] = Short.parseShort(channels[i]);}
+      catch (NumberFormatException e) {
+        stdout.print_debug("Failed to parse RGB value: " + channels[i]);
+        rgba[i] = 0;
+      } 
     }
     red = rgba[0];
     green = rgba[1];
@@ -106,5 +113,11 @@ class RGBA {
     alpha = rgba[3];
   }
   
-  public byte[] getChannels() {return new byte[]{red, green, blue, alpha};}
+  public short[] getChannels() {return new short[]{red, green, blue, alpha};}
+  
+  public long getLong() {
+    return ((long)red << 48) + ((long)green << 32) + ((long)blue << 16) + (long)alpha;
+  }
+  
+  //long toUnsigned(short b) {return b & 255;}
 }

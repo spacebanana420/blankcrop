@@ -4,7 +4,7 @@ public class help {
   public static void printHelp() {
     System.out.println
     (
-      "==Blankcrop v1.0=="
+      "==Blankcrop v0.2=="
       + "\nUsage: blankcrop [options] [png images...]"
       + "\n"
       + "\n==Options=="

@@ -1,6 +1,6 @@
 # Blankcrop
 
-Blankcrop is a program that can automatically crop a PNG image based on the redundant transparent space it has. If an image has a transparent background or border that is unnecessarily large, blankcrop removes the extra space that doesn't have to be there.
+Blankcrop is a program that can automatically crop a PNG image based on the redundant transparent space it has, as well as convert it to a different color palette. If an image has a transparent background or border that is unnecessarily large, blankcrop removes the extra space that doesn't have to be there.
 
 # Requirements & running
 
@@ -9,7 +9,7 @@ Blankcrop is a program that can automatically crop a PNG image based on the redu
 
 ### Download and how to use
 
-Download blankcrop from the [releases page](https://github.com/spacebanana420/blankcrop/releases) and run it with `java -jar blankcrop.jar`. Introduce a path to a PNG image to crop it.
+Download blankcrop from the [releases page](https://github.com/spacebanana420/blankcrop/releases) and run it with `java -jar blankcrop.jar`. Introduce a path to a PNG image and use the argument `-crop` to autocrop it.
 
 # Build from source
 

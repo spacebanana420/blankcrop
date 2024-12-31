@@ -35,6 +35,8 @@ public class cli {
   public static boolean doCrop(String[] args) {return hasArgument(args, "-crop");}
   public static boolean doPalette(String[] args) {return hasArgument(args, "-palette");}
   
+  public static boolean approximateMatch(String[] args) {return hasArgument(args, "-approx");}
+  
   public static String[] getPaletteFiles(String[] args) {
     String[] palette_files = new String[2];
     int p_i = 0;

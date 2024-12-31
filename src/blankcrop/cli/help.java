@@ -14,6 +14,7 @@ public class help {
       + "\n  * -o (--overwrite) - overwrites cropped image"
       + "\n  * -out - sets a manual output PNG filename/path"
       + "\n  * -d [path] (--directory [path]) - crops all PNG images inside a directory (not recursive)"
+      + "\n  * -approx - verifies an approximate match to color palettes instead of exact"
       + "\n  * -quiet - disables all printing to standard output"
       + "\n  * -verbose - prints more information on the progam's progress"
       + "\n  * -debug - prints debugging information"

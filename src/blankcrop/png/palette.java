@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class palette {
-  public static BufferedRgbaImage convertImage(BufferedRgbaImage img, String palette1, String palette2) {
+  public static BufferedRgbaImage convertImage(BufferedRgbaImage img, String palette1, String palette2, boolean approximate_match) {
     long[] colors1 = readPalette(palette1);
     long[] colors2 = readPalette(palette2);
     if (colors1 == null || colors2 == null) {return img;}
@@ -26,24 +26,59 @@ public class palette {
     int palette_length = colors1.length;
     int width = img.getWidth();
     int height = img.getHeight();
-    int[] bitDepths = img.getBitDepths();
-    var newimg = new BufferedRgbaImage(width, height, bitDepths);
+    var newimg = new BufferedRgbaImage(width, height, img.getBitDepths());
     
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++)
       {
         long pixel = img.getPixel(x, y);
-        for (int i = 0; i < palette_length; i++) {
-          if (pixel == colors1[i]) {
-            stdout.print_debug("Found pixel match: " + pixel);
-            pixel = colors2[i];
-            newimg.setPixel(x, y, pixel);
-            break;
-          }
+        int i;
+        if (approximate_match) {i = findMatch_approx(pixel, colors1);}
+        else {i = findMatch_exact(pixel, colors1);}
+        if (i != -1) {
+          stdout.print_debug("Found pixel match: " + pixel);
+          pixel = colors2[i];
         }
+        newimg.setPixel(x, y, pixel);
       }
     }
     return newimg;
+  }
+  
+  static int findMatch_exact(long pixel, long[] colors) {
+    for (int i = 0; i < colors.length; i++)
+    {
+      if (pixel == colors[i]) {return i;}
+    }
+    return -1;
+  }
+  
+  static int findMatch_approx(long pixel, long[] colors) {
+    if (pixel == 0) {return -1;} //fully transparent pixel
+    short[] pixel_color = RGBA.getChannels(pixel);
+    float lowest_average = -1;
+    int lowest_i = -1;
+    
+    for (int i = 0; i < colors.length; i++)
+    {
+      if (pixel == colors[i]) {return i;}
+      short[] palette_color = RGBA.getChannels(colors[i]);
+      float[] deviations = new float[4];
+      for (int c = 0; c < 4; c++) {
+        if (pixel_color[c] >= palette_color[c]) {deviations[c] = pixel_color[c]-palette_color[c];}
+        else {deviations[c] = palette_color[c]-pixel_color[c];}
+      }
+      float average = (deviations[0] + deviations[1] + deviations[2] + deviations[3]) / 4;
+      boolean match =
+        (deviations[0] <= 8 && deviations[1] <= 8 && deviations[2] <= 8 && deviations[3] <= 2)
+        && (lowest_average == -1 || average < lowest_average)
+      ;
+      if (match) {
+        lowest_average = average;
+        lowest_i = i;
+      }
+    }
+    return lowest_i;
   }
   
   static long[] readPalette(String path) {
@@ -115,9 +150,12 @@ class RGBA {
   
   public short[] getChannels() {return new short[]{red, green, blue, alpha};}
   
+  public static short[] getChannels(long pixel) {
+    return new short[] {(short)(pixel >> 48), (short)(pixel >> 32), (short)(pixel >> 16), (short)pixel};
+  }
+  
   public long getLong() {
     return ((long)red << 48) + ((long)green << 32) + ((long)blue << 16) + (long)alpha;
   }
-  
   //long toUnsigned(short b) {return b & 255;}
 }

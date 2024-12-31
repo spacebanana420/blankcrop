@@ -73,11 +73,12 @@ public class main {
   
   static BufferedRgbaImage changePalette(BufferedRgbaImage image, String[] args) {
     String[] palette_files = cli.getPaletteFiles(args);
+    boolean approximate = cli.approximateMatch(args);
     if (palette_files[0] == null || palette_files[1] == null) {
       stdout.print("You must specify 2 .palette files to convert the image's color palette!");
       return image;
     }
-    return palette.convertImage(image, palette_files[0], palette_files[1]);
+    return palette.convertImage(image, palette_files[0], palette_files[1], approximate);
   }
 }
 

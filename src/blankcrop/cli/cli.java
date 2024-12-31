@@ -42,7 +42,7 @@ public class cli {
     int p_i = 0;
     for (int i = 0; i < args.length && p_i < 2; i++) {
       String arg = args[i];
-      if (!arg.contains(".palette")) {continue;}
+      if (!arg.contains(".plt")) {continue;}
       File file = new File(arg);
       if (!file.isFile() || !file.canRead()) {continue;}
       palette_files[p_i] = arg;

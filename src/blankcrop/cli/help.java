@@ -9,6 +9,8 @@ public class help {
       + "\n"
       + "\n==Options=="
       + "\n  * -h (--help) - prints this menu"
+      + "\n  * -crop - Crops the image"
+      + "\n  * -palette - Changes the color palette of the image (requires passing 2 .palette files as arguments)"
       + "\n  * -o (--overwrite) - overwrites cropped image"
       + "\n  * -out - sets a manual output PNG filename/path"
       + "\n  * -d [path] (--directory [path]) - crops all PNG images inside a directory (not recursive)"

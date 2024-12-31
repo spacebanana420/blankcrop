@@ -42,7 +42,7 @@ public class main {
     if (global.CROP_IMAGE) {image = cropImage(image, path);}
     if (global.PALETTE_CONVERT) {changePalette(image, args);}
     
-    String newname = getFilename(args, path);
+    String newname = misc.getFilename(args, path);
     boolean result = pngio.writeImage(image, newname);
 
     if (result) {stdout.print("Converted image " + path);}
@@ -76,7 +76,9 @@ public class main {
     if (palette_files[0] == null || palette_files[1] == null) {return;}
     palette.convertImage(image, palette_files[1], palette_files[2]);
   }
+}
 
+class misc {
   static String getFilename(String[] args, String input_file) {
     String custom_filename = cli.getOutputFile(args);
   

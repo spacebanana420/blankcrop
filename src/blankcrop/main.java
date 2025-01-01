@@ -19,11 +19,13 @@ public class main {
     global.CROP_IMAGE = cli.doCrop(args);
     global.WALFAS_MODE = cli.walfasMode(args);
     global.PALETTE_CONVERT = cli.doPalette(args);
+    global.PALETTE_GENERATE = cli.doGenPalette(args);
+    
+    boolean issuedAnyCommands = global.CROP_IMAGE || global.PALETTE_CONVERT || global.PALETTE_GENERATE;
+    if (!issuedAnyCommands) {help.printNoCommands(); System.exit(1);}
     
     var files = cli.getInputFiles(args);
-    boolean issuedAnyCommands = global.CROP_IMAGE || global.PALETTE_CONVERT || global.PALETTE_GENERATE;
-    if (!issuedAnyCommands || files.size() == 0) {help.printHelp_small(); System.exit(1);}
-    
+    if (files.size() == 0) {help.printNoImages(); System.exit(2);}
     for (String file : files) {encodeImage(file, args);}
   }
 

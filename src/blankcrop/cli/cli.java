@@ -32,8 +32,9 @@ public class cli {
 
   public static boolean walfasMode(String[] args) {return hasArgument(args, "-walfa");}
   
-  public static boolean doCrop(String[] args) {return hasArgument(args, "-crop");}
-  public static boolean doPalette(String[] args) {return hasArgument(args, "-palette");}
+  public static boolean doCrop(String[] args) {return hasArgument(args, "crop");}
+  public static boolean doPalette(String[] args) {return hasArgument(args, "palette");}
+  public static boolean doGenPalette(String[] args) {return hasArgument(args, "generate-palette");}
   
   public static boolean approximateMatch(String[] args) {return hasArgument(args, "-approx");}
   

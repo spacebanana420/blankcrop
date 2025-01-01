@@ -21,7 +21,7 @@ public class main {
     global.PALETTE_CONVERT = cli.doPalette(args);
     
     var files = cli.getInputFiles(args);
-    boolean issuedAnyCommands = global.CROP_IMAGE || global.PALETTE_CONVERT;
+    boolean issuedAnyCommands = global.CROP_IMAGE || global.PALETTE_CONVERT || global.PALETTE_GENERATE;
     if (!issuedAnyCommands || files.size() == 0) {help.printHelp_small(); System.exit(1);}
     
     for (String file : files) {encodeImage(file, args);}
@@ -42,11 +42,19 @@ public class main {
     if (global.CROP_IMAGE) {image = cropImage(image, path);}
     if (global.PALETTE_CONVERT) {image = changePalette(image, args);}
     
-    String newname = misc.getFilename(args, path);
+    String newname = misc.getFilename(args, path, false);
     boolean result = pngio.writeImage(image, newname);
 
     if (result) {stdout.print("Converted image " + path);}
     else {stdout.print("Error: failed to create converted image at path " + newname);}
+    
+    if (global.PALETTE_GENERATE) {
+      String palette_data = palette.generatePalette(image);
+      newname = misc.getFilename(args, path, true);
+      result = pngio.writePalette(palette_data, newname);
+        if (result) {stdout.print("Generated palette file " + newname + " from " + path);}
+        else {stdout.print("Error: failed to generate palette file from file " + path);}
+    }
   }
   
   static BufferedRgbaImage cropImage(BufferedRgbaImage image, String path) {
@@ -83,12 +91,13 @@ public class main {
 }
 
 class misc {
-  static String getFilename(String[] args, String input_file) {
+  static String getFilename(String[] args, String input_file, boolean isPalette) {
     String custom_filename = cli.getOutputFile(args);
+    String extension; if (isPalette) {extension = ".plt";} else {extension = ".png";} 
   
     if (custom_filename != null) {return custom_filename;}
     else if (global.OVERWRITE_IMAGE) {return input_file;}
-    else {return removeExtension(input_file) + "-autocropped.png";}
+    else {return removeExtension(input_file) + "-autocropped" + extension;}
   }
 
   static String removeExtension(String path) {

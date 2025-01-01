@@ -45,6 +45,28 @@ public class palette {
     return newimg;
   }
   
+  public static String generatePalette(BufferedRgbaImage image) {
+    int width = image.getWidth();
+    int height = image.getHeight();
+    var colors = new ArrayList<RGBA>();
+    long previous_pixel = 0;
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        long pixel = image.getPixel(x, y);
+        if (pixel == 0) {continue;}
+        previous_pixel = pixel;
+        colors.add(new RGBA(pixel));
+      }
+    }
+    int len = colors.size();
+    String data = "";
+    for (int i = 0; i < len; i++) {
+      short[] color = colors.get(i).getChannels();
+      data += color[0] + " " + color[1] + " " + color[2] + " " + color[3] + "\n";
+    }
+    return data;
+  }
+  
   static int findMatch_exact(long pixel, long[] colors) {
     for (int i = 0; i < colors.length; i++)
     {
@@ -133,6 +155,15 @@ class RGBA {
       alpha = channels[3];
     }
   }
+  
+  public RGBA(long pixel) {
+    short[] channels = getChannels(pixel);
+    red = channels[0];
+    green = channels[1];
+    blue = channels[2];
+    alpha = channels[3];
+  }
+  
   public RGBA(String[] channels) {
     if (channels.length < 4) {return;}
     short[] rgba = new short[4];

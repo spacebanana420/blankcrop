@@ -8,6 +8,7 @@ import io.nayuki.png.image.RgbaImage;
 import io.nayuki.png.chunk.Ihdr;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class pngio {
@@ -46,5 +47,16 @@ public class pngio {
       }
     }
     return croppedImage;
+  }
+  
+  public static boolean writePalette(String data, String path) {
+    byte[] data_bytes = data.getBytes();
+    try {
+      var fo = new FileOutputStream(path);
+      fo.write(data_bytes);
+      fo.close();
+      return true;
+    }
+    catch (IOException e) {return false;}
   }
 }

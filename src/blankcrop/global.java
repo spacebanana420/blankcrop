@@ -7,4 +7,5 @@ public class global {
   public static boolean CROP_IMAGE = false;
   public static boolean WALFAS_MODE = false;
   public static boolean PALETTE_CONVERT = false;
+  public static boolean PALETTE_GENERATE = false;
 }

@@ -95,6 +95,7 @@ public class palette {
     {
       char c = data.charAt(i);
       if (c == '\n' || rgb_i > 3) {
+        if (rgb_str[3].equals("")) {rgb_str[3] = "255";} //so the user doesnt have to specify the alpha channel
         colors.add(new RGBA(rgb_str));
         rgb_str = new String[]{"", "", "", ""};
         rgb_i = 0;

@@ -55,7 +55,6 @@ public class palette {
       for (int y = 0; y < height; y++) {
         int pixel_i = image.getPixel(x, y);
         long pixel = pal[pixel_i];
-        System.out.println("PIXEL: " + pixel);
         if (pixel == 0) {continue;}
         colors.add(new RGBA(pixel));
       }

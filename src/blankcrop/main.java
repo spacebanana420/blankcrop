@@ -105,11 +105,11 @@ public class main {
 class misc {
   static String getFilename(String[] args, String input_file, boolean isPalette) {
     String custom_filename = cli.getOutputFile(args);
-    String extension; if (isPalette) {extension = ".plt";} else {extension = ".png";} 
+    String extension; if (isPalette) {extension = ".plt";} else {extension = "-blankcrop.png";} 
   
     if (custom_filename != null) {return custom_filename;}
     else if (global.OVERWRITE_IMAGE) {return input_file;}
-    else {return removeExtension(input_file) + "-autocropped" + extension;}
+    else {return removeExtension(input_file) + extension;}
   }
 
   static String removeExtension(String path) {

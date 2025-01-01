@@ -6,6 +6,7 @@ import io.nayuki.png.ImageDecoder;
 import io.nayuki.png.ImageEncoder;
 import io.nayuki.png.PngImage;
 import io.nayuki.png.image.BufferedRgbaImage;
+import io.nayuki.png.image.BufferedPaletteImage;
 import io.nayuki.png.image.RgbaImage;
 
 import java.nio.file.Files;
@@ -45,16 +46,17 @@ public class palette {
     return newimg;
   }
   
-  public static String generatePalette(BufferedRgbaImage image) {
+  public static String generatePalette(BufferedPaletteImage image) {
     int width = image.getWidth();
     int height = image.getHeight();
     var colors = new ArrayList<RGBA>();
-    long previous_pixel = 0;
+    long[] pal = image.getPalette();
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {
-        long pixel = image.getPixel(x, y);
+        int pixel_i = image.getPixel(x, y);
+        long pixel = pal[pixel_i];
+        System.out.println("PIXEL: " + pixel);
         if (pixel == 0) {continue;}
-        previous_pixel = pixel;
         colors.add(new RGBA(pixel));
       }
     }
@@ -182,7 +184,7 @@ class RGBA {
   
   public short[] getChannels() {return new short[]{red, green, blue, alpha};}
   
-  public static short[] getChannels(long pixel) {
+  public static short[] getChannels(long pixel) { // add &255 for 16bit support maybe
     return new short[] {(short)(pixel >> 48), (short)(pixel >> 32), (short)(pixel >> 16), (short)pixel};
   }
   

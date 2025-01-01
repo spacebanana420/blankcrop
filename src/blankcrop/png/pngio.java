@@ -4,6 +4,7 @@ import io.nayuki.png.ImageDecoder;
 import io.nayuki.png.ImageEncoder;
 import io.nayuki.png.PngImage;
 import io.nayuki.png.image.BufferedRgbaImage;
+import io.nayuki.png.image.BufferedPaletteImage;
 import io.nayuki.png.image.RgbaImage;
 import io.nayuki.png.chunk.Ihdr;
 
@@ -19,6 +20,19 @@ public class pngio {
     try {
       var img = PngImage.read(path);
       var imageData = (BufferedRgbaImage) ImageDecoder.toImage(img);
+      return imageData;
+    }
+    catch (IOException e) {return null;}
+    catch (IllegalArgumentException e) {return null;}
+  }
+  
+  public static BufferedPaletteImage openPalette(String path) {return openPalette(new File(path));}
+  
+  public static BufferedPaletteImage openPalette(File path) {
+    if (!path.isFile()) {return null;}
+    try {
+      var img = PngImage.read(path);
+      var imageData = (BufferedPaletteImage) ImageDecoder.toImage(img);
       return imageData;
     }
     catch (IOException e) {return null;}

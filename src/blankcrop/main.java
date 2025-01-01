@@ -26,7 +26,12 @@ public class main {
     
     var files = cli.getInputFiles(args);
     if (files.size() == 0) {help.printNoImages(); System.exit(2);}
-    for (String file : files) {encodeImage(file, args);}
+    if (!global.PALETTE_GENERATE) {
+      for (String file : files) {encodeImage(file, args);}
+    }
+    else {
+      for (String file : files) {generatePalette(file, args);}
+    }
   }
 
   static void encodeImage(String path, String[] args) {
@@ -49,14 +54,19 @@ public class main {
 
     if (result) {stdout.print("Converted image " + path);}
     else {stdout.print("Error: failed to create converted image at path " + newname);}
-    
-    if (global.PALETTE_GENERATE) {
-      String palette_data = palette.generatePalette(image);
-      newname = misc.getFilename(args, path, true);
-      result = pngio.writePalette(palette_data, newname);
-        if (result) {stdout.print("Generated palette file " + newname + " from " + path);}
-        else {stdout.print("Error: failed to generate palette file from file " + path);}
+  }
+  
+  static void generatePalette(String path, String[] args) {
+    var image = pngio.openPalette(path);
+    if (image == null) {
+      stdout.print("The image " + path + " cannot be read or is an invalid PNG image! Skipping.");
+      return;
     }
+    String palette_data = palette.generatePalette(image);
+    String newname = misc.getFilename(args, path, true);
+    boolean result = pngio.writePalette(palette_data, newname);
+    if (result) {stdout.print("Generated palette file " + newname + " from " + path);}
+    else {stdout.print("Error: failed to generate palette file from file " + path);}
   }
   
   static BufferedRgbaImage cropImage(BufferedRgbaImage image, String path) {

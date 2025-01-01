@@ -1,5 +1,7 @@
 # Blankcrop palette format
 
+## Reading palette files
+
 To convert a sprite from one palette to another, you need to pass 2 palette files as arguments. The first file is used as reference, and the second file is used for conversion.
 
 The palette format is very simple. It's a plain text format with the file extension `.plt` composed of RGBA values representing colors. Each color can be separated by line, or you can combine multiple colors into a single line, as long as all the 4 RGBA channels are in the same line.
@@ -49,3 +51,12 @@ You can also omit the alpha channel value if you want to assume it's always 255:
 ```
 
 Note that, by omitting the alpha value, you cannot add multiple colors per line, since the supposed red channel of the next color will be read as the alpha channel of the previous.
+
+
+## Generating palette files
+
+You can also generate palette files automatically from indexed PNG images. If you have an indexed color PNG image where each pixel is a different color in the palette, you can generate a palette file from it using:
+
+`blankcrop generate-palette paletteimage.png`
+
+The conversion does not work if the image's format is RGBA instead of indexed color.
